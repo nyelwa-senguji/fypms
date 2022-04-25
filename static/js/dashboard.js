@@ -13,7 +13,7 @@ $(document).ready(function () {
   });
 });
 
-var assigned_students = [];
+var students_to_assign = [];
 
 function GetAllInstructors() {
   var search_instructor = $("#search_instructor").val();
@@ -115,8 +115,8 @@ function AssignStudent(name, id) {
     return;
   }
 
-  if (!assigned_students.includes(id)) {
-    assigned_students.push(id);
+  if (!students_to_assign.includes(id)) {
+    students_to_assign.push(id);
     
     $(".column-body").append(
       "<div class='assign-student'>" +
@@ -132,7 +132,21 @@ function AssignStudent(name, id) {
   }
 }
 
-function AssignStudentToInstructor() {}
+function AssignStudentToInstructor() {
+  var instructor_to_assign = $("#instructor-to-assign").val();
+  
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      instructor_to_assign: instructor_to_assign,
+      students_to_assign: students_to_assign
+    },
+    success: function (response) {
+      alert(response);
+    }
+  });
+}
 
 function OpenAssign() {
   $(".dashboard-container").hide();

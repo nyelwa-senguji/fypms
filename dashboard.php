@@ -65,7 +65,7 @@ $role = $_SESSION['user_data'][2];
                 <div class="column-header">
                     Instructors
                 </div>
-                <input type="text" name="search_instructor" id="search_instructor"  placeholder="Search Instructor" class="inp">
+                <input type="text" name="search_instructor" id="search_instructor" placeholder="Search Instructor" class="inp">
                 <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                 <hr>
             </div>
@@ -115,8 +115,8 @@ $role = $_SESSION['user_data'][2];
                 <div class="column-body">
                     <div class="assign-instructor">
                         Instructor name
-                        <input type="hidden" name="instructor-to-assign" id="instructor-to-assign" value="">
                     </div>
+                    <input type="hidden" name="instructor-to-assign" id="instructor-to-assign" value="">
                 </div>
                 <div class="assign-btn">
                     <button class="btn">ASSIGN</button>

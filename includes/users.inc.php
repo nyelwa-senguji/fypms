@@ -21,3 +21,10 @@ if (isset($_GET['students'])) {
     $students_array = $users->GetAllStudents();
     echo json_encode($students_array);
 }
+
+if(isset($_POST['instructor_to_assign']) && isset($_POST['students_to_assign'])){
+    //Values to assign
+    $instructor_to_assign = $_POST['instructor_to_assign'];
+    $students_to_assign = $_POST['students_to_assign'];
+    echo $users->AssignStudentsToInstructorsService($instructor_to_assign, $students_to_assign);
+}
