@@ -20,12 +20,28 @@ class UsersService extends Users{
         }
     }
 
+    public function GetAssignedInstructorsService(){
+        if($this->GetAssignedInstructorsRepo() == false){
+            return false;
+        }else{
+            return $this->GetAssignedInstructorsRepo();
+        }
+    }
+
+    public function GetAssignedStudentsService($id){
+        if($this->GetAssignedStudentsRepo($id) == false){
+            return false;
+        }else{
+            return $this->GetAssignedStudentsRepo($id);
+        }
+    }
+
     public function AssignStudentsToInstructorsService($instructor_to_assign, $students_to_assign){
         if($this->AssignStudentsToInstructorsRepo($instructor_to_assign, $students_to_assign) == false){
             echo "Could not assign student to instructor";
             exit();
         }else{
-            echo "Student were successfully";
+            echo "Successfully assigned students to instructors";
             exit();
         }
     }

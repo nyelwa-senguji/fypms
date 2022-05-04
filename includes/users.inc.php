@@ -22,9 +22,21 @@ if (isset($_GET['students'])) {
     echo json_encode($students_array);
 }
 
+if (isset($_GET['assigned_instructors'])) {
+    //Get assigned instructors
+    $assigned_instructors_array = $users->GetAssignedInstructorsService();
+    echo json_encode($assigned_instructors_array);
+}
+
 if(isset($_POST['instructor_to_assign']) && isset($_POST['students_to_assign'])){
     //Values to assign
     $instructor_to_assign = $_POST['instructor_to_assign'];
     $students_to_assign = $_POST['students_to_assign'];
     echo $users->AssignStudentsToInstructorsService($instructor_to_assign, $students_to_assign);
+}
+
+if(isset($_POST['id'])){
+    $id = $_POST['id'];
+    $assigned_students_array = $users->GetAssignedStudentsService($id);
+    echo json_encode($assigned_students_array);
 }

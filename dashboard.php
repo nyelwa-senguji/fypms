@@ -4,11 +4,13 @@ include("includes/session.inc.php");
 
 session_start();
 
-$fullname = $_SESSION['user_data'][0];
+$id = $_SESSION['user_data'][0];
 
-$department = $_SESSION['user_data'][1];
+$fullname = $_SESSION['user_data'][1];
 
-$role = $_SESSION['user_data'][2];
+$department = $_SESSION['user_data'][2];
+
+$role = $_SESSION['user_data'][3];
 
 ?>
 <!DOCTYPE html>
@@ -18,10 +20,11 @@ $role = $_SESSION['user_data'][2];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $role; ?> | Dashboard</title>
+    <title><?= $role; ?> | FYPMS</title>
 
     <link rel="stylesheet" href="static/css/dashboard.css">
     <link rel="stylesheet" href="static/fonts_new/css/all.css">
+    <link rel="stylesheet" href="static/css/toastr.css">
 </head>
 
 <body>
@@ -48,10 +51,6 @@ $role = $_SESSION['user_data'][2];
                     <div class="text cursor assign" onclick="OpenAssign();"><i class="fa-solid fa-clone" style="margin-right: 10px;"></i>Assign</div>
                     <hr>
                 <?php } ?>
-                <?php if ($role == "Supervisor") { ?>
-                    <div class="text cursor"><i class="fa-solid fa-user-graduate" style="margin-right: 10px;"></i>Students</div>
-                    <hr>
-                <?php } ?>
                 <div class="text cursor"><i class="fa-solid fa-diagram-project" style="margin-right: 10px;"></i>Projects</div>
                 <hr>
                 <div class="text cursor"><i class="fa-solid fa-chart-line" style="margin-right: 10px;"></i>Activity</div>
@@ -60,28 +59,62 @@ $role = $_SESSION['user_data'][2];
         <!-- ############ END SIDEBAR SECTION ############################# -->
 
         <!-- ############ DASHBOARD CONTAINER (ONCLICK DASHBOARD) ############################# -->
-        <div class="dashboard-container">
-            <div class="dashboard-container-one">
-                <div class="column-header">
-                    Instructors
+        <?php if ($role == "Coordinator") { ?>
+            <div class="dashboard-container">
+                <div class="dashboard-container-one">
+                    <div class="column-header">
+                        Instructors
+                    </div>
+                    <input type="text" name="search_instructor" id="search_instructor" placeholder="Search Instructor" class="inp">
+                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <hr>
+                    <div class="assigned-instructors">
+
+                    </div>
                 </div>
-                <input type="text" name="search_instructor" id="search_instructor" placeholder="Search Instructor" class="inp">
-                <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
-                <hr>
-            </div>
-            <div class="dashboard-container-two">
-                <div class="column-header">
-                    Students
+                <div class="dashboard-container-two">
+                    <div class="column-header">
+                        Students
+                    </div>
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
+                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                 </div>
-                <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
-                <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
-            </div>
-            <div class="dashboard-container-three">
-                <div class="column-header">
-                    Project
+                <div class="dashboard-container-three">
+                    <div class="column-header">
+                        Project
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php } ?>
+        <?php if ($role == "Supervisor") { ?>
+            <div class="dashboard-container">
+                <div class="dashboard-container-one">
+                    <div class="column-header">
+                        Students
+                    </div>
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
+                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <hr>
+                    <input type="hidden" name="supervisor_id" id="supervisor_id" value="<?= $id ?>">
+                    <input type="hidden" name="user_role" id="user_role" value="<?= $role ?>">
+                    <div class="supervisor-assigned-students">
+
+                    </div>
+                </div>
+                <div class="dashboard-container-two">
+                    <div class="column-header">
+                        Projects
+                    </div>
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp">
+                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                </div>
+                <div class="dashboard-container-three">
+                    <div class="column-header">
+                        Project Abstraction
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
         <!-- ############ END DASHBOARD CONTAINER (ONCLICK DASHBOARD) ############################# -->
 
         <!-- ############ ASSIGN CONTAINER (ONCLICK ASSIGN) ############################# -->
@@ -136,6 +169,7 @@ $role = $_SESSION['user_data'][2];
     <!-- ############ END FOOTER SECTION ############################# -->
 </body>
 <script src="static/js/jquery.min.js"></script>
+<script src="static/js/toastr.js"></script>
 <script src="static/js/dashboard.js"></script>
 
 </html>

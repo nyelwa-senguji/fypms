@@ -8,7 +8,7 @@ class Login extends DatabaseConnection
 {
     protected function checkUser($username, $password)
     {
-        $check_if_user_exists = "SELECT fullname, department, role
+        $check_if_user_exists = "SELECT id, fullname, department, role
                                     FROM tbl_users
                                     WHERE username = ? and password = ?";
 
@@ -24,11 +24,11 @@ class Login extends DatabaseConnection
             $resultCheck = false;
         } else {
 
-            $stmt->bind_result($fullname, $department, $role);
+            $stmt->bind_result($id, $fullname, $department, $role);
 
             $stmt->fetch();
 
-            $session_array = array($fullname, $department, $role);
+            $session_array = array($id, $fullname, $department, $role);
 
             $_SESSION['user_data'] = $session_array;
 

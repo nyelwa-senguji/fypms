@@ -160,6 +160,11 @@ hr{
     width: 100%;
 }
 
+.no-user-details{
+    padding: 10px;
+    color: #3C4B64;
+}
+
 .user-details{
     padding: 10px;
 }
