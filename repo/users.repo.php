@@ -47,7 +47,7 @@ class Users extends DatabaseConnection
     {
         $data = array();
 
-        $getAssignedInstructors = "SELECT u.fullname, u.department, u.role FROM tbl_users u, tbl_assign a WHERE u.id = a.instructor_id GROUP BY u.fullname";
+        $getAssignedInstructors = "SELECT u.id, u.fullname, u.department, u.role FROM tbl_users u, tbl_assign a WHERE u.id = a.instructor_id GROUP BY u.fullname";
 
         $stmt = $this->connect()->query($getAssignedInstructors);
 
@@ -65,7 +65,7 @@ class Users extends DatabaseConnection
     {
         $data = array();
 
-        $getAssignedStudents = "SELECT u.fullname, u.department, u.role FROM tbl_users u, tbl_assign a WHERE u.id = a.student_id AND a.instructor_id = '$id'";
+        $getAssignedStudents = "SELECT u.id, u.fullname, u.department, u.role FROM tbl_users u, tbl_assign a WHERE u.id = a.student_id AND a.instructor_id = '$id'";
 
         $stmt = $this->connect()->query($getAssignedStudents);
 

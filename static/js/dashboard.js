@@ -1,12 +1,11 @@
 $(document).ready(function () {
-  var role = $("#user_role").val();
 
   $(".assign-container").hide();
 
   $(".assign-btn").hide();
 
-  if (role == "Supervisor") {
-    GetAssignedStudents();
+  if(role == "Supervisor"){
+    GetAssignedStudents(id)
   }
 
   GetAssignedInstructors();
@@ -22,6 +21,10 @@ $(document).ready(function () {
 });
 
 var students_to_assign = [];
+
+var id = $("#id").val();
+
+var role = $("#role").val();
 
 function GetAssignedInstructors() {
   $.ajax({
@@ -41,7 +44,7 @@ function GetAssignedInstructors() {
           var counter = jsonData[i];
           $(".assigned-instructors").append(
             "<div class='user-details' onclick=\"AssignedInstructor('" +
-              counter.fullname +
+              counter.id +
               "');\">" +
               "<h3 class='text-normal'>" +
               counter.fullname +
@@ -61,12 +64,11 @@ function GetAssignedInstructors() {
   });
 }
 
-function AssignedInstructor(name, name){
-  
+function AssignedInstructor(id) {
+  GetAssignedStudents(id);
 }
 
-function GetAssignedStudents() {
-  var id = $("#supervisor_id").val();
+function GetAssignedStudents(id) {
   $.ajax({
     type: "POST",
     url: "./includes/users.inc.php",
@@ -75,26 +77,51 @@ function GetAssignedStudents() {
     },
     success: function (response) {
       jsonData = JSON.parse(response);
-      for (var i = 0; i < jsonData.length; i++) {
-        var counter = jsonData[i];
-        $(".supervisor-assigned-students").append(
-          "<div class='user-details' onclick=\"AssignedStudent('" +
-            counter.fullname +
-            "'," +
-            counter.fullname +
-            ');">' +
-            "<h3 class='text-normal'>" +
-            counter.fullname +
-            "</h3>" +
-            "<h5 class='text-normal'>" +
-            counter.role +
-            "</h5>" +
-            "<h5 class='text-normal'>" +
-            counter.department +
-            "</h5>" +
-            "</div>" +
-            "<hr>"
-        );
+      if(role == "Supervisor"){
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".supervisor-assigned-students").append(
+            "<div class='user-details' onclick=\"AssignedStudent('" +
+              counter.fullname +
+              "'," +
+              counter.fullname +
+              ');">' +
+              "<h3 class='text-normal'>" +
+              counter.fullname +
+              "</h3>" +
+              "<h5 class='text-normal'>" +
+              counter.role +
+              "</h5>" +
+              "<h5 class='text-normal'>" +
+              counter.department +
+              "</h5>" +
+              "</div>" +
+              "<hr>"
+          );
+        }
+      }
+      if(role == "Coordinator"){
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".coordinator-assigned-students").append(
+            "<div class='user-details' onclick=\"AssignedStudent('" +
+              counter.fullname +
+              "'," +
+              counter.fullname +
+              ');">' +
+              "<h3 class='text-normal'>" +
+              counter.fullname +
+              "</h3>" +
+              "<h5 class='text-normal'>" +
+              counter.role +
+              "</h5>" +
+              "<h5 class='text-normal'>" +
+              counter.department +
+              "</h5>" +
+              "</div>" +
+              "<hr>"
+          );
+        }
       }
     },
   });
@@ -243,7 +270,6 @@ function AssignStudentToInstructor() {
       students_to_assign: students_to_assign,
     },
     success: function (response) {
-      
       toastr.success("", response, {
         debug: false,
         showMethod: "fadeIn",
@@ -254,9 +280,9 @@ function AssignStudentToInstructor() {
         positionClass: "toast-top-center",
         progressBar: true,
       });
-      setTimeout(function(){
+      setTimeout(function () {
         location.reload();
-      },5000);
+      }, 5000);
     },
   });
 }

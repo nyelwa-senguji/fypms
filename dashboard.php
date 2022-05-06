@@ -28,6 +28,8 @@ $role = $_SESSION['user_data'][3];
 </head>
 
 <body>
+    <input type="hidden" name="id" id="id" value="<?= $id ?>">
+    <input type="hidden" name="role" id="role" value="<?= $role ?>">
 
     <!-- ############ HEADER SECTION ############################# -->
     <div class="first-row">
@@ -78,6 +80,10 @@ $role = $_SESSION['user_data'][3];
                     </div>
                     <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <hr>
+                    <div class="coordinator-assigned-students">
+
+                    </div>
                 </div>
                 <div class="dashboard-container-three">
                     <div class="column-header">
@@ -95,8 +101,6 @@ $role = $_SESSION['user_data'][3];
                     <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                     <hr>
-                    <input type="hidden" name="supervisor_id" id="supervisor_id" value="<?= $id ?>">
-                    <input type="hidden" name="user_role" id="user_role" value="<?= $role ?>">
                     <div class="supervisor-assigned-students">
 
                     </div>
