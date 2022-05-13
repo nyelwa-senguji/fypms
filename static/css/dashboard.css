@@ -110,7 +110,7 @@ hr{
     border-bottom: #F3F2EF 1px solid;
 }
 
-.inp{
+.inp-search{
     padding: 10px;
     margin: 5px 10px;
     border: none;
@@ -121,7 +121,16 @@ hr{
     outline-width: 1px;
     width: 80%;
 }
+.inp{
+    padding: 6px;
+    margin-bottom: 10px;
+    outline-width: 2px;
+    outline-color: #3C8DBC;
+}
 
+.inp:focus::placeholder{
+    color: transparent;
+}
 .instructors{
     display: flex;
     flex-direction: column;
@@ -149,7 +158,9 @@ hr{
 .assign-btn{
     padding: 10px 30px;
 }
-
+.btn-width{
+    width: 100%;
+}
 .btn{
     padding: 10px;
     color: #fff;
@@ -157,7 +168,7 @@ hr{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    
 }
 
 .no-user-details{
@@ -205,6 +216,86 @@ hr{
 .assign-container-three{
     width: 40%;
 }
+
+.project-container{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-container-columns{
+    border: #F3F2EF 1px solid;
+    border-radius: 5px 5px 0px 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.project-container-add-btn{
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.project-container-one{
+    border-right: #F3F2EF 1px solid;
+    width: 30%;
+}
+
+.project-container-two{
+    width: 70%;
+}
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 20px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    border-radius: 5px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    color: #fff;
+    background-color: #3C8DBC;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-body {
+    background: #fff;
+    color: #696969;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .footer{
     background: #F3F2EF;
     padding: 1% 0;

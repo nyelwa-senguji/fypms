@@ -53,8 +53,10 @@ $role = $_SESSION['user_data'][3];
                     <div class="text cursor assign" onclick="OpenAssign();"><i class="fa-solid fa-clone" style="margin-right: 10px;"></i>Assign</div>
                     <hr>
                 <?php } ?>
-                <div class="text cursor"><i class="fa-solid fa-diagram-project" style="margin-right: 10px;"></i>Projects</div>
-                <hr>
+                <?php if ($role == "Student") { ?>
+                    <div class="text cursor project" onclick="OpenProject();"><i class="fa-solid fa-diagram-project" style="margin-right: 10px;"></i>Projects</div>
+                    <hr>
+                <?php } ?>
                 <div class="text cursor"><i class="fa-solid fa-chart-line" style="margin-right: 10px;"></i>Activity</div>
             </div>
         </div>
@@ -67,7 +69,7 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Instructors
                     </div>
-                    <input type="text" name="search_instructor" id="search_instructor" placeholder="Search Instructor" class="inp">
+                    <input type="text" name="search_instructor" id="search_instructor" placeholder="Search Instructor" class="inp-search">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                     <hr>
                     <div class="assigned-instructors">
@@ -78,7 +80,7 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Students
                     </div>
-                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp-search">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                     <hr>
                     <div class="coordinator-assigned-students">
@@ -98,7 +100,7 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Students
                     </div>
-                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp-search">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                     <hr>
                     <div class="supervisor-assigned-students">
@@ -109,12 +111,35 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Projects
                     </div>
-                    <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp">
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp-search">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                 </div>
                 <div class="dashboard-container-three">
                     <div class="column-header">
-                        Project Abstraction
+                        Project Abstract
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php if ($role == "Student") { ?>
+            <div class="dashboard-container">
+                <div class="dashboard-container-one">
+                    <div class="column-header">
+                        Assigned Supervisor
+                    </div>
+                    <hr>
+                    <div class="supervisor-assigned-students">
+
+                    </div>
+                </div>
+                <div class="dashboard-container-two">
+                    <div class="column-header">
+                        Projects
+                    </div>
+                </div>
+                <div class="dashboard-container-three">
+                    <div class="column-header">
+                        Project Abstract
                     </div>
                 </div>
             </div>
@@ -127,7 +152,7 @@ $role = $_SESSION['user_data'][3];
                 <div class="column-header">
                     Instructors
                 </div>
-                <input type="text" name="search_instructor" id="search_instructor" onkeyup="GetAllInstructors();" placeholder="Search Instructor" class="inp">
+                <input type="text" name="search_instructor" id="search_instructor" onkeyup="GetAllInstructors();" placeholder="Search Instructor" class="inp-search">
                 <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                 <hr>
                 <div class="instructors">
@@ -138,7 +163,7 @@ $role = $_SESSION['user_data'][3];
                 <div class="column-header">
                     Students
                 </div>
-                <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp">
+                <input type="text" name="search_student" id="search_student" placeholder="Search Student" class="inp-search">
                 <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
                 <hr>
                 <div class="students">
@@ -156,12 +181,41 @@ $role = $_SESSION['user_data'][3];
                     <input type="hidden" name="instructor-to-assign" id="instructor-to-assign" value="">
                 </div>
                 <div class="assign-btn">
-                    <button class="btn">ASSIGN</button>
+                    <button class="btn btn-width">ASSIGN</button>
                 </div>
             </div>
         </div>
+        <!-- ############ END ASSIGN CONTAINER (ONCLICK ASSIGN) ############################# -->
+        <!-- ############ PROJECT CONTAINER (ONCLICK ASSIGN) ############################# -->
+        <div class="project-container">
+            <div class="project-container-add-btn">
+            <button class="btn" id="add_project">ADD PROJECT</button>
+            </div>
+            <div class="project-container-columns">
+                <div class="project-container-one">
+                    <div class="column-header">
+                        Project name
+                    </div>
+                    <hr>
+                    <div class="project-name">
+                        
+                    </div>
+                </div>
+                <div class="project-container-two">
+                    <div class="column-header">
+                        Project abstract
+                    </div>
+                    <hr>
+                    <div class="project-abstract">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <!-- ############ END ASSIGN CONTAINER (ONCLICK ASSIGN) ############################# -->
+    <!-- ############ END PROJECT CONTAINER (ONCLICK ASSIGN) ############################# -->
+    </div>
     <!-- ############ END BODY SECTION ############################# -->
 
     <!-- ############ FOOTER SECTION ############################# -->
@@ -171,6 +225,7 @@ $role = $_SESSION['user_data'][3];
         </div>
     </div>
     <!-- ############ END FOOTER SECTION ############################# -->
+    <?php include("modals/add_project_modal.php"); ?>
 </body>
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/toastr.js"></script>

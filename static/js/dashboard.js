@@ -2,6 +2,8 @@ $(document).ready(function () {
 
   $(".assign-container").hide();
 
+  $(".project-container").hide();
+
   $(".assign-btn").hide();
 
   if(role == "Supervisor"){
@@ -287,6 +289,23 @@ function AssignStudentToInstructor() {
   });
 }
 
+/************* ADD PROJECT MODAL *******************/
+var add_project_modal = document.getElementById("add_project_modal");
+
+var add_project = document.getElementById("add_project");
+
+var close_add_project_modal = document.getElementById("close_add_project_modal");
+
+add_project.onclick = function () {
+  add_project_modal.style.display = "block";
+};
+
+close_add_project_modal.onclick = function () {
+  add_project_modal.style.display = "none";
+};
+
+/************* END ADD PROJECT MODAL *******************/
+
 function OpenAssign() {
   $(".dashboard-container").hide();
 
@@ -297,12 +316,28 @@ function OpenAssign() {
   $(".assign").addClass("active");
 }
 
+function OpenProject(){
+  $(".dashboard-container").hide();
+
+  $(".assign-container").hide();
+
+  $(".project-container").show();
+
+  $(".dashboard").removeClass("active");
+
+  $(".project").addClass("active");
+}
+
 function OpenDashboard() {
   $(".dashboard-container").show();
 
   $(".assign-container").hide();
 
+  $(".project-container").hide();
+
   $(".assign").removeClass("active");
+
+  $(".project").removeClass("active");
 
   $(".dashboard").addClass("active");
 }
