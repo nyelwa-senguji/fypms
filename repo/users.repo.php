@@ -61,6 +61,24 @@ class Users extends DatabaseConnection
         }
     }
 
+    public function GetAssignedInstructorRepo($id)
+    {
+        $data = array();
+
+        $getAssignedInstructor = "SELECT u.id, u.fullname, u.department, u.role FROM tbl_users u, tbl_assign a WHERE u.id = a.instructor_id AND a.student_id = '$id'";
+
+        $stmt = $this->connect()->query($getAssignedInstructor);
+
+        if($stmt->num_rows > 0){
+            while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
+                array_push($data, $row);
+            }
+            return $data;
+        }else{
+            return false;
+        }
+    }
+
     public function GetAssignedStudentsRepo($id)
     {
         $data = array();
@@ -93,7 +111,6 @@ class Users extends DatabaseConnection
             $stmt->bind_param("ii", $instructor_to_assign, $student_to_assign);
 
             $insert = $stmt->execute();
-            
         }
         if ($insert) {
             return true;

@@ -127,8 +127,7 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Assigned Supervisor
                     </div>
-                    <hr>
-                    <div class="supervisor-assigned-students">
+                    <div class="student-assigned-supervisor">
 
                     </div>
                 </div>

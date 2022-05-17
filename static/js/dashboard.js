@@ -1,13 +1,16 @@
 $(document).ready(function () {
-
   $(".assign-container").hide();
 
   $(".project-container").hide();
 
   $(".assign-btn").hide();
 
-  if(role == "Supervisor"){
-    GetAssignedStudents(id)
+  if (role == "Supervisor") {
+    GetAssignedStudents(id);
+  }
+
+  if (role == "Student") {
+    GetAssignedInstructor(id);
   }
 
   GetAssignedInstructors();
@@ -66,6 +69,43 @@ function GetAssignedInstructors() {
   });
 }
 
+function GetAssignedInstructor(id) {
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      id: id,
+      assigned_instructor: "assigned_instructor",
+    },
+    success: function (response) {
+      jsonData = JSON.parse(response);
+      if (jsonData == false) {
+        $(".assigned-instructors").append(
+          "<div class='no-user-details'><h3 class='text-normal'>Not Assigned to any instructor...</h3></div>"
+        );
+      } else {
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".student-assigned-supervisor").append(
+            "<div class='user-details'>" +
+              "<h3 class='text-normal'>" +
+              counter.fullname +
+              "</h3>" +
+              "<h5 class='text-normal'>" +
+              counter.role +
+              "</h5>" +
+              "<h5 class='text-normal'>" +
+              counter.department +
+              "</h5>" +
+              "</div>" +
+              "<hr>"
+          );
+        }
+      }
+    },
+  });
+}
+
 function AssignedInstructor(id) {
   GetAssignedStudents(id);
 }
@@ -76,10 +116,11 @@ function GetAssignedStudents(id) {
     url: "./includes/users.inc.php",
     data: {
       id: id,
+      assigned_students: "assigned_students",
     },
     success: function (response) {
       jsonData = JSON.parse(response);
-      if(role == "Supervisor"){
+      if (role == "Supervisor") {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
           $(".supervisor-assigned-students").append(
@@ -102,7 +143,7 @@ function GetAssignedStudents(id) {
           );
         }
       }
-      if(role == "Coordinator"){
+      if (role == "Coordinator") {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
           $(".coordinator-assigned-students").append(
@@ -294,7 +335,9 @@ var add_project_modal = document.getElementById("add_project_modal");
 
 var add_project = document.getElementById("add_project");
 
-var close_add_project_modal = document.getElementById("close_add_project_modal");
+var close_add_project_modal = document.getElementById(
+  "close_add_project_modal"
+);
 
 add_project.onclick = function () {
   add_project_modal.style.display = "block";
@@ -316,7 +359,7 @@ function OpenAssign() {
   $(".assign").addClass("active");
 }
 
-function OpenProject(){
+function OpenProject() {
   $(".dashboard-container").hide();
 
   $(".assign-container").hide();

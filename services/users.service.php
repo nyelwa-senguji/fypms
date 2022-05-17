@@ -28,6 +28,15 @@ class UsersService extends Users{
         }
     }
 
+    public function GetAssignedInstructorService($id)
+    {
+        if($this->GetAssignedInstructorRepo($id) == false){
+            return false;
+        }else{
+            return $this->GetAssignedInstructorRepo($id);
+        }
+    }
+
     public function GetAssignedStudentsService($id){
         if($this->GetAssignedStudentsRepo($id) == false){
             return false;

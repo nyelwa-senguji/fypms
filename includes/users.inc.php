@@ -35,8 +35,13 @@ if(isset($_POST['instructor_to_assign']) && isset($_POST['students_to_assign']))
     echo $users->AssignStudentsToInstructorsService($instructor_to_assign, $students_to_assign);
 }
 
-if(isset($_POST['id'])){
+if(isset($_POST['id']) && isset($_POST['assigned_students'])){
     $id = $_POST['id'];
     $assigned_students_array = $users->GetAssignedStudentsService($id);
     echo json_encode($assigned_students_array);
+}
+
+if(isset($_POST['id']) && isset($_POST['assigned_instructor'])){
+    $id = $_POST['id'];
+    echo json_encode($users->GetAssignedInstructorRepo($id));
 }
