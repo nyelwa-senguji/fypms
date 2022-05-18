@@ -135,10 +135,16 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Projects
                     </div>
+                    <div class="student-project">
+
+                    </div>
                 </div>
                 <div class="dashboard-container-three">
                     <div class="column-header">
                         Project Abstract
+                    </div>
+                    <div class="student-project-abstract">
+
                     </div>
                 </div>
             </div>

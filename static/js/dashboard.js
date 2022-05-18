@@ -11,6 +11,7 @@ $(document).ready(function () {
 
   if (role == "Student") {
     GetAssignedInstructor(id);
+    GetStudentProjects(id);
   }
 
   GetAssignedInstructors();
@@ -96,6 +97,42 @@ function GetAssignedInstructor(id) {
               "</h5>" +
               "<h5 class='text-normal'>" +
               counter.department +
+              "</h5>" +
+              "</div>" +
+              "<hr>"
+          );
+        }
+      }
+    },
+  });
+}
+
+function GetStudentProjects(id) {
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      id: id,
+      project: "project",
+    },
+    success: function (response) {
+      jsonData = JSON.parse(response);
+      if (jsonData == false) {
+        $(".student-project").append(
+          "<div class='no-user-details'><h3 class='text-normal'>You have not added any projects...</h3></div>"
+        );
+      } else {
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".assigned-instructors").append(
+            "<div class='user-details' onclick=\"ProjectAbstract('" +
+              counter.project_id +
+              "');\">" +
+              "<h3 class='text-normal'>" +
+              counter.project_name +
+              "</h3>" +
+              "<h5 class='text-normal'>" +
+              counter.project_abstract +
               "</h5>" +
               "</div>" +
               "<hr>"

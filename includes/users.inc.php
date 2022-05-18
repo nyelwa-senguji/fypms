@@ -43,5 +43,10 @@ if(isset($_POST['id']) && isset($_POST['assigned_students'])){
 
 if(isset($_POST['id']) && isset($_POST['assigned_instructor'])){
     $id = $_POST['id'];
-    echo json_encode($users->GetAssignedInstructorRepo($id));
+    echo json_encode($users->GetAssignedInstructorService($id));
+}
+
+if(isset($_POST['id']) && isset($_POST['project'])){
+    $id = $_POST['id'];
+    echo json_encode($users->GetStudentProjectsService($id));
 }

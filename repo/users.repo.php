@@ -69,12 +69,12 @@ class Users extends DatabaseConnection
 
         $stmt = $this->connect()->query($getAssignedInstructor);
 
-        if($stmt->num_rows > 0){
+        if ($stmt->num_rows > 0) {
             while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
                 array_push($data, $row);
             }
             return $data;
-        }else{
+        } else {
             return false;
         }
     }
@@ -90,6 +90,24 @@ class Users extends DatabaseConnection
         // $stmt->bind_param("i", $id);
 
         // $stmt = $this->connect()->query($getAssignedStudents);
+
+        if ($stmt->num_rows > 0) {
+            while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
+                array_push($data, $row);
+            }
+            return $data;
+        } else {
+            return false;
+        }
+    }
+
+    public function GetStudentProjectsRepo($id)
+    {
+        $data = array();
+
+        $getStudentProjects = "SELECT project_id, project_name, project_abstract FROM tbl_projects WHERE student_id = '$id'";
+
+        $stmt = $this->connect()->query($getStudentProjects);
 
         if ($stmt->num_rows > 0) {
             while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
