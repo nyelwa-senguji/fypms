@@ -105,7 +105,7 @@ class Users extends DatabaseConnection
     {
         $data = array();
 
-        $getStudentProjects = "SELECT project_id, project_name, project_abstract FROM tbl_projects WHERE student_id = '$id'";
+        $getStudentProjects = "SELECT project_id, project_name FROM tbl_projects WHERE student_id = '$id'";
 
         $stmt = $this->connect()->query($getStudentProjects);
 
@@ -113,6 +113,26 @@ class Users extends DatabaseConnection
             while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
                 array_push($data, $row);
             }
+            return $data;
+        } else {
+            return false;
+        }
+    }
+
+    public function GetProjectAbstractRepo($id){
+        // $data = array();
+
+        $getProjectAbstract = "SELECT project_abstract FROM tbl_projects WHERE project_id = '$id'";
+
+        $stmt = $this->connect()->query($getProjectAbstract);
+
+        if ($stmt->num_rows > 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                // array_push($data, $row);
+                // die($row['project_abstract']);
+                $data = $row['project_abstract'];
+            }
+            $element = "";
             return $data;
         } else {
             return false;
@@ -130,6 +150,22 @@ class Users extends DatabaseConnection
 
             $insert = $stmt->execute();
         }
+        if ($insert) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function AddStudentProjectRepo($id, $name, $abstract){
+        $insertProject = "INSERT INTO tbl_projects(student_id, project_name, project_abstract)
+                            VALUES (?, ?, ?)";
+        $stmt = $this->connect()->prepare($insertProject);
+
+        $stmt->bind_param("iss", $id, $name, $abstract);
+
+        $insert = $stmt->execute();
+
         if ($insert) {
             return true;
         } else {

@@ -45,6 +45,14 @@ class UsersService extends Users{
         }
     }
 
+    public function GetProjectAbstractService($id){
+        if($this->GetProjectAbstractRepo($id) == false){
+            return false;
+        }else{
+            return $this->GetProjectAbstractRepo($id);
+        }
+    }
+
     public function GetAssignedStudentsService($id){
         if($this->GetAssignedStudentsRepo($id) == false){
             return false;
@@ -58,7 +66,17 @@ class UsersService extends Users{
             echo "Could not assign student to instructor";
             exit();
         }else{
-            echo "Successfully assigned students to instructors";
+            echo "Successfully assigned students to instructor";
+            exit();
+        }
+    }
+
+    public function AddStudentProjectService($id, $name, $abstract){
+        if($this->AddStudentProjectRepo($id, $name, $abstract) == false){
+            echo "Could not add project";
+            exit();
+        }else{
+            echo "Successfully added project";
             exit();
         }
     }

@@ -113,10 +113,24 @@ $role = $_SESSION['user_data'][3];
                     </div>
                     <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp-search">
                     <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <hr>
+                    <div class="supervisor-assigned-students-projects">
+
+                    </div>
                 </div>
                 <div class="dashboard-container-three">
                     <div class="column-header">
                         Project Abstract
+                    </div>
+                    <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp-search">
+                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <hr>
+                    <div class="supervisor-assigned-students-project-abstract project-abstract">
+
+                    </div>
+                    <div class="project-buttons-container">
+                        <button class="btn-search" id="add_project">SEARCH IN DATABASE</button>
+                        <button class="btn-accept" id="add_project">ACCEPT PROJECT</button>
                     </div>
                 </div>
             </div>
@@ -143,7 +157,7 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Project Abstract
                     </div>
-                    <div class="student-project-abstract">
+                    <div class="student-project-abstract user-details">
 
                     </div>
                 </div>
@@ -194,7 +208,7 @@ $role = $_SESSION['user_data'][3];
         <!-- ############ PROJECT CONTAINER (ONCLICK ASSIGN) ############################# -->
         <div class="project-container">
             <div class="project-container-add-btn">
-            <button class="btn" id="add_project">ADD PROJECT</button>
+                <button class="btn" id="add_project">ADD PROJECT</button>
             </div>
             <div class="project-container-columns">
                 <div class="project-container-one">
@@ -203,7 +217,7 @@ $role = $_SESSION['user_data'][3];
                     </div>
                     <hr>
                     <div class="project-name">
-                        
+
                     </div>
                 </div>
                 <div class="project-container-two">
@@ -211,7 +225,7 @@ $role = $_SESSION['user_data'][3];
                         Project abstract
                     </div>
                     <hr>
-                    <div class="project-abstract">
+                    <div class="project-abstract user-details">
 
                     </div>
                 </div>

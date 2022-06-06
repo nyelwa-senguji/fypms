@@ -50,3 +50,15 @@ if(isset($_POST['id']) && isset($_POST['project'])){
     $id = $_POST['id'];
     echo json_encode($users->GetStudentProjectsService($id));
 }
+
+if(isset($_POST['project_id'])){
+    $project_id = $_POST['project_id'];
+    echo $users->GetProjectAbstractService($project_id);
+}
+
+if(isset($_POST['student_id']) && isset($_POST['project_name']) && isset($_POST['project_abstract'])){
+    $student_id = $_POST['student_id'];
+    $project_name = $_POST['project_name'];
+    $project_abstract = $_POST['project_abstract'];
+    echo $users->AddStudentProjectService($student_id, $project_name, $project_abstract);
+}

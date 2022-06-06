@@ -5,6 +5,8 @@ $(document).ready(function () {
 
   $(".assign-btn").hide();
 
+  $(".project-buttons-container").hide();
+
   if (role == "Supervisor") {
     GetAssignedStudents(id);
   }
@@ -23,6 +25,11 @@ $(document).ready(function () {
   $(".assign-btn").click(function (e) {
     e.preventDefault();
     AssignStudentToInstructor();
+  });
+
+  $("#add_new_project").click(function (e) {
+    e.preventDefault();
+    AddStudentProject();
   });
 });
 
@@ -124,21 +131,42 @@ function GetStudentProjects(id) {
       } else {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
-          $(".assigned-instructors").append(
-            "<div class='user-details' onclick=\"ProjectAbstract('" +
+          $(".student-project").append(
+            "<div class='user-details' onclick=\"GetProjectAbstract('" +
               counter.project_id +
               "');\">" +
               "<h3 class='text-normal'>" +
               counter.project_name +
               "</h3>" +
-              "<h5 class='text-normal'>" +
-              counter.project_abstract +
-              "</h5>" +
+              "</div>" +
+              "<hr>"
+          );
+          $(".project-name").append(
+            "<div class='user-details' onclick=\"GetProjectAbstract('" +
+              counter.project_id +
+              "');\">" +
+              "<h3 class='text-normal'>" +
+              counter.project_name +
+              "</h3>" +
               "</div>" +
               "<hr>"
           );
         }
       }
+    },
+  });
+}
+
+function GetProjectAbstract(id) {
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      project_id: id,
+    },
+    success: function (response) {
+      $(".project-abstract").text(response);
+      $(".student-project-abstract").text(response);
     },
   });
 }
@@ -161,10 +189,8 @@ function GetAssignedStudents(id) {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
           $(".supervisor-assigned-students").append(
-            "<div class='user-details' onclick=\"AssignedStudent('" +
-              counter.fullname +
-              "'," +
-              counter.fullname +
+            "<div class='user-details' onclick=\"AssignedStudentProjects(" +
+              counter.id +
               ');">' +
               "<h3 class='text-normal'>" +
               counter.fullname +
@@ -184,10 +210,8 @@ function GetAssignedStudents(id) {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
           $(".coordinator-assigned-students").append(
-            "<div class='user-details' onclick=\"AssignedStudent('" +
-              counter.fullname +
-              "'," +
-              counter.fullname +
+            "<div class='user-details' onclick=\"AssignedStudentProjects(" +
+              counter.id +
               ');">' +
               "<h3 class='text-normal'>" +
               counter.fullname +
@@ -203,6 +227,53 @@ function GetAssignedStudents(id) {
           );
         }
       }
+    },
+  });
+}
+
+function AssignedStudentProjects(id) {
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      id: id,
+      project: "project",
+    },
+    success: function (response) {
+      jsonData = JSON.parse(response);
+      if (jsonData == false) {
+        $(".supervisor-assigned-students-projects").append(
+          "<div class='no-user-details'><h3 class='text-normal'>This student has no projects yet...</h3></div>"
+        );
+      } else {
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".supervisor-assigned-students-projects").append(
+            "<div class='user-details' onclick=\"AssignedStudentProjectAbstract('" +
+              counter.project_id +
+              "');\">" +
+              "<h3 class='text-normal'>" +
+              counter.project_name +
+              "</h3>" +
+              "</div>" +
+              "<hr>"
+          );
+        }
+      }
+    },
+  });
+}
+
+function AssignedStudentProjectAbstract(id) {
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      project_id: id,
+    },
+    success: function (response) {
+      $(".supervisor-assigned-students-project-abstract").text(response);
+      $(".project-buttons-container").show();
     },
   });
 }
@@ -348,6 +419,39 @@ function AssignStudentToInstructor() {
     data: {
       instructor_to_assign: instructor_to_assign,
       students_to_assign: students_to_assign,
+    },
+    success: function (response) {
+      toastr.success("", response, {
+        debug: false,
+        showMethod: "fadeIn",
+        showEasing: "swing",
+        showDuration: 300,
+        showEasing: "swing",
+        hideMethod: "fadeOut",
+        positionClass: "toast-top-center",
+        progressBar: true,
+      });
+      setTimeout(function () {
+        location.reload();
+      }, 5000);
+    },
+  });
+}
+
+function AddStudentProject() {
+  var student_id = id;
+
+  var project_name = $("#project_name").val();
+
+  var project_abstract = $("#project_abstract").val();
+
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      student_id: student_id,
+      project_name: project_name,
+      project_abstract: project_abstract,
     },
     success: function (response) {
       toastr.success("", response, {
