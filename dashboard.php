@@ -122,15 +122,19 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Project Abstract
                     </div>
-                    <input type="text" name="search_student" id="search_student" placeholder="Search Project" class="inp-search">
-                    <span style="margin-left: -40px;"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <div class="hidden_project_name user-details text-bold">
+
+                    </div>
                     <hr>
                     <div class="supervisor-assigned-students-project-abstract project-abstract">
 
                     </div>
                     <div class="project-buttons-container">
-                        <button class="btn-search" id="add_project">SEARCH IN DATABASE</button>
+                        <button class="btn-search" id="check_project">SEARCH IN DATABASE</button>
+                    </div>
+                    <div class="project-buttons-container">
                         <button class="btn-accept" id="add_project">ACCEPT PROJECT</button>
+                        <button class="btn-reject" id="add_project">REJECT PROJECT</button>
                     </div>
                 </div>
             </div>
@@ -245,6 +249,7 @@ $role = $_SESSION['user_data'][3];
     </div>
     <!-- ############ END FOOTER SECTION ############################# -->
     <?php include("modals/add_project_modal.php"); ?>
+    <?php include("modals/check_project_modal.php"); ?>
 </body>
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/toastr.js"></script>

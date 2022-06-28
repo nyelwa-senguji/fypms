@@ -53,7 +53,7 @@ if(isset($_POST['id']) && isset($_POST['project'])){
 
 if(isset($_POST['project_id'])){
     $project_id = $_POST['project_id'];
-    echo $users->GetProjectAbstractService($project_id);
+    echo json_encode($users->GetProjectAbstractService($project_id));
 }
 
 if(isset($_POST['student_id']) && isset($_POST['project_name']) && isset($_POST['project_abstract'])){

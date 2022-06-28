@@ -232,6 +232,8 @@ function GetAssignedStudents(id) {
 }
 
 function AssignedStudentProjects(id) {
+  $(".supervisor-assigned-students-project-abstract").empty();
+  $(".project-buttons-container").hide();
   $.ajax({
     type: "POST",
     url: "./includes/users.inc.php",
@@ -242,13 +244,15 @@ function AssignedStudentProjects(id) {
     success: function (response) {
       jsonData = JSON.parse(response);
       if (jsonData == false) {
-        $(".supervisor-assigned-students-projects").append(
+        $(".supervisor-assigned-students-projects").empty().append(
           "<div class='no-user-details'><h3 class='text-normal'>This student has no projects yet...</h3></div>"
         );
       } else {
+        $(".supervisor-assigned-students-project-abstract project-abstract").empty();
+        var elementHTML = $(".supervisor-assigned-students-projects").empty();
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
-          $(".supervisor-assigned-students-projects").append(
+          elementHTML.append(
             "<div class='user-details' onclick=\"AssignedStudentProjectAbstract('" +
               counter.project_id +
               "');\">" +
@@ -272,7 +276,13 @@ function AssignedStudentProjectAbstract(id) {
       project_id: id,
     },
     success: function (response) {
-      $(".supervisor-assigned-students-project-abstract").text(response);
+      var counter;
+      jsonData = JSON.parse(response);
+      for (var i = 0; i < jsonData.length; i++){
+        counter = jsonData[i];
+      }
+      $(".hidden_project_name").text(counter.project_name)
+      $(".supervisor-assigned-students-project-abstract").text(counter.project_abstract);
       $(".project-buttons-container").show();
     },
   });
@@ -471,6 +481,11 @@ function AddStudentProject() {
   });
 }
 
+function searchProjectInDatabase(){
+  var project_name = $("#check_project_name").val();
+  $("#project_results").text(project_name);
+}
+
 /************* ADD PROJECT MODAL *******************/
 var add_project_modal = document.getElementById("add_project_modal");
 
@@ -486,6 +501,25 @@ add_project.onclick = function () {
 
 close_add_project_modal.onclick = function () {
   add_project_modal.style.display = "none";
+};
+
+/************* END ADD PROJECT MODAL *******************/
+
+/************* ADD PROJECT MODAL *******************/
+var check_project_modal = document.getElementById("check_project_modal");
+
+var check_project = document.getElementById("check_project");
+
+var close_check_project_modal = document.getElementById(
+  "close_check_project_modal"
+);
+
+check_project.onclick = function () {
+  check_project_modal.style.display = "block";
+};
+
+close_check_project_modal.onclick = function () {
+  check_project_modal.style.display = "none";
 };
 
 /************* END ADD PROJECT MODAL *******************/

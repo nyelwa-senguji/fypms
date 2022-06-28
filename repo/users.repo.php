@@ -120,19 +120,18 @@ class Users extends DatabaseConnection
     }
 
     public function GetProjectAbstractRepo($id){
-        // $data = array();
+        $data = array();
 
-        $getProjectAbstract = "SELECT project_abstract FROM tbl_projects WHERE project_id = '$id'";
+        $getProjectAbstract = "SELECT project_name, project_abstract FROM tbl_projects WHERE project_id = '$id'";
 
         $stmt = $this->connect()->query($getProjectAbstract);
 
         if ($stmt->num_rows > 0) {
             while ($row = $stmt->fetch_assoc()) {
-                // array_push($data, $row);
+                array_push($data, $row);
                 // die($row['project_abstract']);
-                $data = $row['project_abstract'];
+                // $data = $row['project_abstract'];
             }
-            $element = "";
             return $data;
         } else {
             return false;
