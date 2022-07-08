@@ -91,6 +91,12 @@ $role = $_SESSION['user_data'][3];
                     <div class="column-header">
                         Project
                     </div>
+                    <div class="coordinator-project-name user-details text-bold">
+
+                    </div>
+                    <div class="coordinator-assigned-students-project-abstract project-abstract">
+
+                    </div>
                 </div>
             </div>
         <?php } ?>
@@ -126,6 +132,8 @@ $role = $_SESSION['user_data'][3];
 
                     </div>
                     <hr>
+                    <input type="hidden" name="hidden_project_id" id="hidden_project_id" value="">
+                    <input type="hidden" name="hidden_student_name" id="hidden_student_name" value="">
                     <div class="supervisor-assigned-students-project-abstract project-abstract">
 
                     </div>
@@ -133,8 +141,8 @@ $role = $_SESSION['user_data'][3];
                         <button class="btn-search" id="check_project">SEARCH IN DATABASE</button>
                     </div>
                     <div class="project-buttons-container">
-                        <button class="btn-accept" id="add_project">ACCEPT PROJECT</button>
-                        <button class="btn-reject" id="add_project">REJECT PROJECT</button>
+                        <button class="btn-accept" id="accept_project" onclick="AcceptProject();">ACCEPT PROJECT</button>
+                        <button class="btn-reject" id="reject_project">REJECT PROJECT</button>
                     </div>
                 </div>
             </div>
@@ -250,6 +258,8 @@ $role = $_SESSION['user_data'][3];
     <!-- ############ END FOOTER SECTION ############################# -->
     <?php include("modals/add_project_modal.php"); ?>
     <?php include("modals/check_project_modal.php"); ?>
+    <?php include("modals/accept_project_modal.php"); ?>
+    <?php include("modals/reject_project_modal.php"); ?>
 </body>
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/toastr.js"></script>

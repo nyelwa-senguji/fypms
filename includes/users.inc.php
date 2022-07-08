@@ -51,6 +51,11 @@ if(isset($_POST['id']) && isset($_POST['project'])){
     echo json_encode($users->GetStudentProjectsService($id));
 }
 
+if(isset($_POST['student_id']) && isset($_POST['coordinator'])){
+    $coordinator_student_id = $_POST['student_id'];
+    echo json_encode($users->GetSelectedStudentService($coordinator_student_id));
+}
+
 if(isset($_POST['project_id'])){
     $project_id = $_POST['project_id'];
     echo json_encode($users->GetProjectAbstractService($project_id));
@@ -61,4 +66,14 @@ if(isset($_POST['student_id']) && isset($_POST['project_name']) && isset($_POST[
     $project_name = $_POST['project_name'];
     $project_abstract = $_POST['project_abstract'];
     echo $users->AddStudentProjectService($student_id, $project_name, $project_abstract);
+}
+
+if(isset($_POST['search_param'])){
+    $param = $_POST['search_param'];
+    echo json_encode($users->GetSelectedProjectService($param));
+}
+
+if(isset($_POST['selected_project_id'])){
+    $selected_project_id = $_POST['selected_project_id'];
+    echo $users->UpdateSelectedProjectService($selected_project_id);
 }

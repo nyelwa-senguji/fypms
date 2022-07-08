@@ -165,8 +165,12 @@ function GetProjectAbstract(id) {
       project_id: id,
     },
     success: function (response) {
-      $(".project-abstract").text(response);
-      $(".student-project-abstract").text(response);
+      jsonData = JSON.parse(response);
+      for (var i = 0; i < jsonData.length; i++) {
+        var counter = jsonData[i];
+        $(".project-abstract").text(counter.project_abstract);
+        $(".student-project-abstract").text(counter.project_abstract);
+      }
     },
   });
 }
@@ -204,13 +208,14 @@ function GetAssignedStudents(id) {
               "</div>" +
               "<hr>"
           );
+          $("#hidden_student_name").val(counter.fullname);
         }
       }
       if (role == "Coordinator") {
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
           $(".coordinator-assigned-students").append(
-            "<div class='user-details' onclick=\"AssignedStudentProjects(" +
+            "<div class='user-details' onclick=\"CoordinatorAssignedStudentProjects(" +
               counter.id +
               ');">' +
               "<h3 class='text-normal'>" +
@@ -231,6 +236,37 @@ function GetAssignedStudents(id) {
   });
 }
 
+function CoordinatorAssignedStudentProjects(id) {
+  $(".coordinator-project-name").empty();
+  $(".coordinator-assigned-students-project-abstract").empty();
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      student_id: id,
+      coordinator: "coordinator",
+    },
+    success: function (response) {
+      jsonData = JSON.parse(response);
+      if (jsonData == false) {
+        $(".coordinator-assigned-students-project-abstract")
+          .empty()
+          .append(
+            "<div class='no-user-details'><h3 class='text-normal'>This student has no projects yet...</h3></div>"
+          );
+      } else {
+        $(".coordinator-assigned-students-project-abstract").empty();
+        $(".coordinator-project-name").empty();
+        for (var i = 0; i < jsonData.length; i++) {
+          var counter = jsonData[i];
+          $(".coordinator-project-name").text(counter.project_name);
+          $(".coordinator-assigned-students-project-abstract").text(counter.project_abstract);
+        }
+      }
+    },
+  });
+}
+
 function AssignedStudentProjects(id) {
   $(".supervisor-assigned-students-project-abstract").empty();
   $(".project-buttons-container").hide();
@@ -244,11 +280,15 @@ function AssignedStudentProjects(id) {
     success: function (response) {
       jsonData = JSON.parse(response);
       if (jsonData == false) {
-        $(".supervisor-assigned-students-projects").empty().append(
-          "<div class='no-user-details'><h3 class='text-normal'>This student has no projects yet...</h3></div>"
-        );
+        $(".supervisor-assigned-students-projects")
+          .empty()
+          .append(
+            "<div class='no-user-details'><h3 class='text-normal'>This student has no projects yet...</h3></div>"
+          );
       } else {
-        $(".supervisor-assigned-students-project-abstract project-abstract").empty();
+        $(
+          ".supervisor-assigned-students-project-abstract project-abstract"
+        ).empty();
         var elementHTML = $(".supervisor-assigned-students-projects").empty();
         for (var i = 0; i < jsonData.length; i++) {
           var counter = jsonData[i];
@@ -278,14 +318,60 @@ function AssignedStudentProjectAbstract(id) {
     success: function (response) {
       var counter;
       jsonData = JSON.parse(response);
-      for (var i = 0; i < jsonData.length; i++){
+      for (var i = 0; i < jsonData.length; i++) {
         counter = jsonData[i];
       }
-      $(".hidden_project_name").text(counter.project_name)
-      $(".supervisor-assigned-students-project-abstract").text(counter.project_abstract);
+      $(".hidden_project_name").text(counter.project_name);
+      $("#hidden_project_id").val(counter.project_id);
+      $(".supervisor-assigned-students-project-abstract").text(
+        counter.project_abstract
+      );
       $(".project-buttons-container").show();
     },
   });
+}
+
+function AcceptProject() {
+  var project = $(".hidden_project_name").text();
+  var project_id = $("#hidden_project_id").val();
+  var student_name = $("#hidden_student_name").val();
+  if (
+    confirm(
+      "You are about to accept project " +
+        project +
+        " for " +
+        student_name +
+        "."
+    )
+  ) {
+    $.ajax({
+      type: "POST",
+      url: "./includes/users.inc.php",
+      data: {
+        selected_project_id: project_id,
+      },
+      success: function (response) {
+        payload =
+          "The project " +
+          project +
+          " has been accepted for student " +
+          student_name +
+          ".";
+        if (response == "200") {
+          toastr.success("", payload, {
+            debug: false,
+            showMethod: "fadeIn",
+            showEasing: "swing",
+            showDuration: 300,
+            showEasing: "swing",
+            hideMethod: "fadeOut",
+            positionClass: "toast-top-center",
+            progressBar: true,
+          });
+        }
+      },
+    });
+  }
 }
 
 function GetAllInstructors() {
@@ -481,9 +567,24 @@ function AddStudentProject() {
   });
 }
 
-function searchProjectInDatabase(){
+function searchProjectInDatabase() {
   var project_name = $("#check_project_name").val();
-  $("#project_results").text(project_name);
+
+  $.ajax({
+    type: "POST",
+    url: "./includes/users.inc.php",
+    data: {
+      search_param: project_name,
+    },
+    success: function (response) {
+      if (response == "false") {
+        $("#project_results").text("No Results");
+      } else {
+        $("#project_results").text(response);
+      }
+      // console.log(response);
+    },
+  });
 }
 
 /************* ADD PROJECT MODAL *******************/
@@ -505,7 +606,7 @@ close_add_project_modal.onclick = function () {
 
 /************* END ADD PROJECT MODAL *******************/
 
-/************* ADD PROJECT MODAL *******************/
+/************* CHECK PROJECT MODAL *******************/
 var check_project_modal = document.getElementById("check_project_modal");
 
 var check_project = document.getElementById("check_project");
@@ -522,7 +623,7 @@ close_check_project_modal.onclick = function () {
   check_project_modal.style.display = "none";
 };
 
-/************* END ADD PROJECT MODAL *******************/
+/************* END CHECK PROJECT MODAL *******************/
 
 function OpenAssign() {
   $(".dashboard-container").hide();

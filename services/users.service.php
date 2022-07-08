@@ -45,11 +45,38 @@ class UsersService extends Users{
         }
     }
 
+    public function GetSelectedStudentService($id)
+    {
+        if($this->GetSelectedStudentRepo($id) == false){
+            return false;
+        }else{
+            return $this->GetSelectedStudentRepo($id);
+        }
+    }
+
     public function GetProjectAbstractService($id){
         if($this->GetProjectAbstractRepo($id) == false){
             return false;
         }else{
             return $this->GetProjectAbstractRepo($id);
+        }
+    }
+
+    public function GetSelectedProjectService($param){
+        if($this->GetSelectedProjectRepo($param) == false){
+            return false;
+        }else{
+            return $this->GetSelectedProjectRepo($param);
+        }
+    }
+
+    public function UpdateSelectedProjectService($id){
+        if($this->UpdateSelectedProjectRepo($id) == false){
+            echo "400";
+            exit();
+        }else{
+            echo "200";
+            exit();
         }
     }
 
